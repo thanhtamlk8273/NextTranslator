@@ -5,7 +5,6 @@ using NextTranslator.ViewModels;
 using ReactiveUI;
 using System;
 using System.Linq;
-using System.Reactive.Disposables;
 
 namespace NextTranslator.Views;
 
