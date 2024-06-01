@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NextTranslator.ViewModels;
 
-public class TranslationViewModel : ViewModelBase
+public class TranslationViewModel : ReactiveObject
 {
     readonly private IFilesService? _filesService = null;
 
