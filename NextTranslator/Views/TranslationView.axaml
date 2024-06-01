@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:ui="using:FluentAvalonia.UI.Controls"
+			 xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+			 xmlns:vm="using:NextTranslator.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="NextTranslator.Views.TranslationView"
+			 x:DataType="vm:TranslationViewModel">
+
+	<DockPanel Margin="10" LastChildFill="True">
+		<ui:CommandBar DockPanel.Dock="Top" DefaultLabelPosition="Right">
+			<ui:CommandBar.PrimaryCommands>
+				<ui:CommandBarButton IconSource="Open" Label="Open" Command="{Binding OpenFileCommand}" />
+				<ui:CommandBarButton IconSource="Save" Label="Save" />
+				<ui:CommandBarSeparator />
+				<ui:CommandBarButton IconSource="Character" Label="Convert" />
+			</ui:CommandBar.PrimaryCommands>
+		</ui:CommandBar>
+		
+		<ui:TabView VerticalAlignment="Stretch"
+					CanReorderTabs="False" AllowDropTabs="False" CanDragTabs="False"
+					IsAddTabButtonVisible="False" TabWidthMode="Compact">
+			<ui:TabViewItem Header="Original"
+							IconSource="Document">
+					<TextBox VerticalContentAlignment="Top"
+							BorderThickness="0"
+							IsReadOnly="True"
+							TextWrapping="Wrap"
+							Text="{Binding Text}"/>
+			</ui:TabViewItem>
+			<ui:TabViewItem Header="Translated"
+						    IconSource="Document">
+				<TextBox VerticalContentAlignment="Top"
+						 BorderThickness="0"
+						 IsReadOnly="True"
+						 TextWrapping="Wrap"
+						 Text="{Binding Text}"/>
+			</ui:TabViewItem>
+		</ui:TabView>
+	</DockPanel>
+</UserControl>
