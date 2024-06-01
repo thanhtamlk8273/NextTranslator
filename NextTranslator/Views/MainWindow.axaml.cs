@@ -5,7 +5,6 @@ using NextTranslator.ViewModels;
 using ReactiveUI;
 using System;
 using System.Linq;
-using System.Reactive.Disposables;
 
 namespace NextTranslator.Views;
 
@@ -18,10 +17,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         this.WhenActivated(disposables =>
         {
             // Default NavView
-            if (this.FindControl<NavigationView>("BaseView") is NavigationView nv && nv.MenuItems.Count > 0)
+            if (this.FindControl<NavigationView>("BaseView") is NavigationView nv)
             {
                 nv.SelectionChanged += OnBaseViewSelectionChanged;
-                nv.SelectedItem = nv.MenuItems[0];
+                nv.SelectedItem = nv.MenuItems.ElementAt(0);
             }
         });
     }

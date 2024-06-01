@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using NextTranslator.Services;
 using NextTranslator.ViewModels;
 using NextTranslator.Views;

@@ -1,7 +1,4 @@
-using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Nest;
 using NextTranslator.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NextTranslator.ViewModels;
 
-public class TranslationViewModel : ReactiveObject
+public class TranslationViewModel : ViewModelBase
 {
     readonly private IFilesService? _filesService = null;
 
@@ -39,7 +36,7 @@ public class TranslationViewModel : ReactiveObject
 
         // Start async operation to open the dialog.
         var file = await _filesService.OpenFileAsync();
-        
+
         if (file == null || file.TryGetLocalPath() is not String filePath || Path.GetExtension(filePath) != ".txt")
         {
             return;
