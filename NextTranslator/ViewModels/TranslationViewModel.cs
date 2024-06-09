@@ -11,15 +11,17 @@ namespace NextTranslator.ViewModels;
 
 public class TranslationViewModel : ViewModelBase
 {
-    readonly private IFilesService? _filesService = null;
+    readonly private IFilesService _filesService;
+    readonly private IDictionariesProviderService _dictionariesProvider;
 
     [Reactive] public string Text { get; set; } = "";
     [Reactive] public ReactiveCommand<Unit, Unit> OpenFileCommand { get; private set; } = null!;
+    [Reactive] public ReactiveCommand<Unit, Unit> TranslateCommand { get; private set; } = null!;
 
-    public TranslationViewModel(IFilesService fileService)
+    public TranslationViewModel(IFilesService fileService, IDictionariesProviderService dictionariesProvider)
     {
         _filesService = fileService;
-
+        _dictionariesProvider = dictionariesProvider;
         CreateCommands();
     }
 
@@ -46,5 +48,4 @@ public class TranslationViewModel : ViewModelBase
         using var reader = new StreamReader(readStream);
         Text = await reader.ReadToEndAsync();
     }
-
 }
