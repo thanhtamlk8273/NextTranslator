@@ -37,15 +37,9 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         {
             var smpPage = $"NextTranslator.Views.{nvi.Tag}";
             var pageModelName = $"NextTranslator.ViewModels.{nvi.Tag}Model";
-            Console.WriteLine($"Getting {smpPage}");
             nv.Content = Type.GetType(smpPage) is Type vType ? Activator.CreateInstance(vType) : null;
             nv.DataContext = Type.GetType(pageModelName) is Type vmType ?
                 ((MainWindowViewModel?)this.DataContext)?.ServiceProvider.GetRequiredService(vmType) : null;
-
-            if (nv.Content is null)
-            {
-                Console.WriteLine("view is null");
-            }
         }
     }
 }

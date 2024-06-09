@@ -16,7 +16,9 @@
 	
 	<StackPanel>
 		<ListBox Name="PageSelection"
-				 ItemsSource="{Binding PageCollections}">
+				 ItemsSource="{Binding PageCollections}"
+				 SelectionChanged="ListBox_SelectionChanged"
+				 SelectionMode="AlwaysSelected">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel />
