@@ -35,10 +35,34 @@
 		<ItemsControl ItemsSource="{Binding PageCollections}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<DataGrid IsVisible="{Binding IsSelected}" ItemsSource="{Binding Dict}">
+					<DataGrid IsVisible="{Binding IsSelected}" ItemsSource="{Binding Dict}" CanUserResizeColumns="True">
 						<DataGrid.Columns>
-							<DataGridTextColumn Header="Chinese" Binding="{ReflectionBinding Key, Mode=TwoWay}" IsReadOnly="False"/>
-							<DataGridTextColumn Header="Vietnamese" Binding="{ReflectionBinding Value, Mode=TwoWay}" IsReadOnly="False"/>
+							<DataGridTemplateColumn SortMemberPath="Key" Header="Chinese" Width="*">
+								<DataTemplate>
+									<TextBlock Margin="10,0,0,0" Text="{ReflectionBinding Key, Mode=OneWay}" TextWrapping="Wrap"/>
+								</DataTemplate>
+							</DataGridTemplateColumn>
+							
+							<DataGridTemplateColumn SortMemberPath="Value" Header="Vietnamese" Width="*">
+								<DataTemplate>
+									<TextBlock Margin="10,0,0,0" Text="{ReflectionBinding Value, Mode=OneWay}" TextWrapping="Wrap"/>
+								</DataTemplate>
+							</DataGridTemplateColumn>
+							
+							<DataGridTemplateColumn>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" Margin="10,0,10,0" Spacing="5">
+										<Button>
+											<ui:SymbolIcon Symbol="Edit"/>
+										</Button>
+
+										<Button Command="{Binding $parent[ItemsControl].((vm:DictionariesContentViewModel)DataContext).DeleteRecordCommand}"
+												CommandParameter="{Binding }">
+											<ui:SymbolIcon Symbol="Delete"/>
+										</Button>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn>
 						</DataGrid.Columns>
 					</DataGrid>
 				</DataTemplate>
