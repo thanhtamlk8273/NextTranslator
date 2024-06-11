@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 
 namespace NextTranslator.ViewModels
 {
@@ -9,6 +8,6 @@ namespace NextTranslator.ViewModels
         public string Greeting => "Welcome to Avalonia!";
 #pragma warning restore CA1822 // Mark members as static
 
-        public TranslationViewModel ViewModel { get; set; } = serviceProvider.GetRequiredService<TranslationViewModel>();
+        public IServiceProvider ServiceProvider { get; } = serviceProvider;
     }
 }

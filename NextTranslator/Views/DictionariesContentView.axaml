@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+			 xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
+			 xmlns:vm="using:NextTranslator.ViewModels"
+			 xmlns:cv="clr-namespace:NextTranslator.Converters"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="NextTranslator.Views.DictionariesContentView"
+			 x:DataType="vm:DictionariesContentViewModel">
+
+	<UserControl.Resources>
+		<cv:MyConverter x:Key="myConverter"/>
+	</UserControl.Resources>
+	
+	<StackPanel>
+		<ListBox Name="PageSelection"
+				 ItemsSource="{Binding PageCollections}"
+				 SelectionChanged="ListBox_SelectionChanged"
+				 SelectionMode="AlwaysSelected">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel />
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<ItemsControl ItemsSource="{Binding PageCollections}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<DataGrid IsVisible="{Binding IsSelected}" ItemsSource="{Binding Dict}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Chinese" Binding="{ReflectionBinding Key, Mode=TwoWay}" IsReadOnly="False"/>
+							<DataGridTextColumn Header="Vietnamese" Binding="{ReflectionBinding Value, Mode=TwoWay}" IsReadOnly="False"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</StackPanel>
+</UserControl>

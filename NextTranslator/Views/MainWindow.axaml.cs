@@ -1,10 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.ReactiveUI;
 using FluentAvalonia.UI.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using NextTranslator.ViewModels;
 using ReactiveUI;
 using System;
-using System.Linq;
 
 namespace NextTranslator.Views;
 
@@ -20,7 +20,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             if (this.FindControl<NavigationView>("BaseView") is NavigationView nv)
             {
                 nv.SelectionChanged += OnBaseViewSelectionChanged;
-                nv.SelectedItem = nv.MenuItems.ElementAt(0);
+                nv.SelectedItem = nv.MenuItems[0];
             }
         });
     }
@@ -36,8 +36,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         else if (e.SelectedItem is NavigationViewItem nvi)
         {
             var smpPage = $"NextTranslator.Views.{nvi.Tag}";
-            nv.Content = (Type.GetType(smpPage) is Type type ? Activator.CreateInstance(type) : null);
-            nv.DataContext = (DataContext as MainWindowViewModel)?.ViewModel;
+            var pageModelName = $"NextTranslator.ViewModels.{nvi.Tag}Model";
+            nv.Content = Type.GetType(smpPage) is Type vType ? Activator.CreateInstance(vType) : null;
+            nv.DataContext = Type.GetType(pageModelName) is Type vmType ?
+                ((MainWindowViewModel?)this.DataContext)?.ServiceProvider.GetRequiredService(vmType) : null;
         }
     }
 }
