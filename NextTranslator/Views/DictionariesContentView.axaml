@@ -6,6 +6,7 @@
 			 xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
 			 xmlns:vm="using:NextTranslator.ViewModels"
 			 xmlns:cv="clr-namespace:NextTranslator.Converters"
+			 xmlns:controls="clr-namespace:NextTranslator.Controls"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="NextTranslator.Views.DictionariesContentView"
 			 x:DataType="vm:DictionariesContentViewModel">
@@ -45,17 +46,13 @@
 							
 							<DataGridTemplateColumn SortMemberPath="Value" Header="Vietnamese" Width="*">
 								<DataTemplate>
-									<TextBlock Margin="10,0,0,0" Text="{ReflectionBinding Value, Mode=OneWay}" TextWrapping="Wrap"/>
+									<controls:EditableTextBlock Text="{ReflectionBinding Value, Mode=OneWay}"/>
 								</DataTemplate>
 							</DataGridTemplateColumn>
 							
 							<DataGridTemplateColumn>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal" Margin="10,0,10,0" Spacing="5">
-										<Button>
-											<ui:SymbolIcon Symbol="Edit"/>
-										</Button>
-
 										<Button Command="{Binding $parent[ItemsControl].((vm:DictionariesContentViewModel)DataContext).DeleteRecordCommand}"
 												CommandParameter="{Binding }">
 											<ui:SymbolIcon Symbol="Delete"/>

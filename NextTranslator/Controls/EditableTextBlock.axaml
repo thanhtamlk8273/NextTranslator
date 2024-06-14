@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+			 xmlns:controls="clr-namespace:NextTranslator.Controls"
+			 mc:Ignorable="d"
+             x:Class="NextTranslator.Controls.EditableTextBlock">
+	<Grid ColumnDefinitions="*, Auto" HorizontalAlignment="Stretch">
+		<i:Interaction.Behaviors>
+			<ia:EventTriggerBehavior EventName="DoubleTapped">
+				<ia:ChangePropertyAction TargetObject="TextBox"
+											PropertyName="IsVisible"
+											Value="True" />
+				<ia:ChangePropertyAction TargetObject="TextBlock"
+											PropertyName="IsVisible"
+											Value="False" />
+				<ia:ChangePropertyAction TargetObject="OkButton"
+											PropertyName="IsVisible"
+											Value="True" />
+				<ia:ChangePropertyAction TargetObject="CancelButton"
+									     PropertyName="IsVisible"
+										 Value="True" />
+			</ia:EventTriggerBehavior>
+		</i:Interaction.Behaviors>
+		
+		<Grid Grid.Column="0">
+			<TextBox x:Name="TextBox" Text="{Binding $parent[controls:EditableTextBlock].Text}" IsVisible="False" HorizontalAlignment="Left"/>
+			<TextBlock x:Name="TextBlock" Text="{Binding $parent[controls:EditableTextBlock].Text}" IsVisible="True" VerticalAlignment="Center"/>
+		</Grid>
+
+		<StackPanel Grid.Column="1" Orientation="Horizontal">
+			<Button x:Name="OkButton" IsVisible="False">
+				<i:Interaction.Behaviors>
+					<ia:EventTriggerBehavior EventName="Click">
+						<ia:ChangePropertyAction TargetObject="TextBox"
+													PropertyName="IsVisible"
+													Value="False" />
+						<ia:ChangePropertyAction TargetObject="TextBlock"
+													PropertyName="IsVisible"
+													Value="True" />
+						<ia:ChangePropertyAction TargetObject="OkButton"
+													PropertyName="IsVisible"
+													Value="False" />
+						<ia:ChangePropertyAction TargetObject="CancelButton"
+													PropertyName="IsVisible"
+													Value="False" />
+					</ia:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+				<ui:SymbolIcon Symbol="Add"/>
+			</Button>
+			<Button x:Name="CancelButton" IsVisible="False">
+				<i:Interaction.Behaviors>
+					<ia:EventTriggerBehavior EventName="Click">
+						<ia:ChangePropertyAction TargetObject="TextBox"
+													PropertyName="IsVisible"
+													Value="False" />
+						<ia:ChangePropertyAction TargetObject="TextBlock"
+													PropertyName="IsVisible"
+													Value="True" />
+						<ia:ChangePropertyAction TargetObject="OkButton"
+													PropertyName="IsVisible"
+													Value="False" />
+						<ia:ChangePropertyAction TargetObject="CancelButton"
+													PropertyName="IsVisible"
+													Value="False" />
+					</ia:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+				<ui:SymbolIcon Symbol="Cancel"/>
+			</Button>
+		</StackPanel>
+	</Grid>
+</UserControl>
