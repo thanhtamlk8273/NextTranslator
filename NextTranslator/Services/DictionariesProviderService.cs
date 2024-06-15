@@ -1,7 +1,9 @@
 ﻿using Avalonia.Collections;
 using NextTranslator.Configurations;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace NextTranslator.Services;
 
@@ -10,6 +12,12 @@ public class DictionariesProviderService(AppConfigurations configurations) : IDi
     public AvaloniaDictionary<string, string> VietPhrase { get; } = LoadDictionary(configurations.VietPhrasePath);
 
     public AvaloniaDictionary<string, string> Names { get; } = LoadDictionary(configurations.NamesPath);
+
+    public void WriteToDisk()
+    {
+        WriteDictionary(VietPhrase, configurations.VietPhrasePath);
+        WriteDictionary(Names, configurations.NamesPath);
+    }
 
     static private AvaloniaDictionary<string, string> LoadDictionary(string dictionaryPath)
     {
@@ -36,5 +44,29 @@ public class DictionariesProviderService(AppConfigurations configurations) : IDi
         }
 
         return ret;
+    }
+
+    static private void WriteDictionary(AvaloniaDictionary<string, string> dic, string dictionaryPath)
+    {
+        Console.WriteLine($"Writing to ${dictionaryPath}");
+        try
+        {
+            using (var writer = new StreamWriter(dictionaryPath))
+            {
+                foreach (string record in dic.Select(x => x.Key + "=" + x.Value))
+                {
+                    if (record.Contains("international_consumer_electronicsshow"))
+                    {
+                        Console.WriteLine(record);
+                    }
+                    writer.WriteLine(record);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // Let the user know what went wrong.
+            Console.WriteLine(e.Message);
+        }
     }
 }

@@ -1,3 +1,5 @@
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using NextTranslator.ViewModels;
 using System;
@@ -11,7 +13,7 @@ public partial class DictionariesContentView : ReactiveUserControl<DictionariesC
         InitializeComponent();
     }
 
-    private void ListBox_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
+    private void ListBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (e.RemovedItems.Count > 0 && e.RemovedItems[0] is DictionarySelectionModel deselected)
         {
@@ -21,5 +23,10 @@ public partial class DictionariesContentView : ReactiveUserControl<DictionariesC
         if (e.AddedItems.Count > 0 && e.AddedItems[0] is DictionarySelectionModel selected) {
             selected.IsSelected = true;
         }
+    }
+
+    public void ValueChangedHanlder(object? sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("Text Changed");
     }
 }

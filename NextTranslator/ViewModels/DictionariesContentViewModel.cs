@@ -2,6 +2,7 @@
 using NextTranslator.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,6 +31,7 @@ public class DictionariesContentViewModel : ViewModelBase
 
     public ObservableCollection<DictionarySelectionModel> PageCollections { get; } = new();
 
+    public ReactiveCommand<KeyValuePair<string, string>, Unit> AddRecordCommand { get; private set; } = null!; 
     public ReactiveCommand<KeyValuePair<string, string>, Unit> DeleteRecordCommand { get; private set; } = null!;
 
     private void CreateSelectionModels()
@@ -55,7 +57,13 @@ public class DictionariesContentViewModel : ViewModelBase
 
     private void CreateCommands()
     {
+        AddRecordCommand = ReactiveCommand.Create<KeyValuePair<string, string>>(r => OnAddRecord(r));
         DeleteRecordCommand = ReactiveCommand.Create<KeyValuePair<string, string>>(r => OnDeleteRecord(r));
+    }
+
+    private void OnAddRecord(KeyValuePair<string, string> record)
+    {
+        Console.WriteLine($"Add {record.Key} - {record.Value}");
     }
 
     private void OnDeleteRecord(KeyValuePair<string, string> record)
