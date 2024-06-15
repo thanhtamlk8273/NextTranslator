@@ -27,12 +27,15 @@
 		</i:Interaction.Behaviors>
 		
 		<Grid Grid.Column="0">
-			<TextBox x:Name="TextBox" Text="{Binding $parent[controls:EditableTextBlock].Text}" IsVisible="False" HorizontalAlignment="Left"/>
+			<TextBox x:Name="TextBox"
+					 Text="{Binding $parent[controls:EditableTextBlock].Text, Mode=TwoWay}"
+					 IsVisible="False"
+					 HorizontalAlignment="Left"/>
 			<TextBlock x:Name="TextBlock" Text="{Binding $parent[controls:EditableTextBlock].Text}" IsVisible="True" VerticalAlignment="Center"/>
 		</Grid>
 
 		<StackPanel Grid.Column="1" Orientation="Horizontal">
-			<Button x:Name="OkButton" IsVisible="False">
+			<Button x:Name="OkButton" IsVisible="False" Click="OkButton_Click">
 				<i:Interaction.Behaviors>
 					<ia:EventTriggerBehavior EventName="Click">
 						<ia:ChangePropertyAction TargetObject="TextBox"

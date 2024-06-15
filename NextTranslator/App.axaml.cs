@@ -14,15 +14,28 @@ namespace NextTranslator
 {
     public partial class App : Application
     {
+        IServiceProvider? serviceProvider = null;
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
+        {
+            if (serviceProvider?.GetRequiredService<IDictionariesProviderService>()
+                is IDictionariesProviderService dictionariesProvider)
+            {
+                dictionariesProvider.WriteToDisk();
+            }
         }
 
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                desktop.Exit += OnExit;
+
                 var mainWindow = new MainWindow();
 
                 // Register all the services needed for the application to run
@@ -31,9 +44,9 @@ namespace NextTranslator
                 collection.AddSingleton<IServiceProvider>(sp => sp);
 
                 // Creates a ServiceProvider containing services from the provided IServiceCollection
-                var services = collection.BuildServiceProvider();
+                serviceProvider = collection.BuildServiceProvider();
 
-                var vm = services.GetRequiredService<MainWindowViewModel>();
+                var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
 
                 mainWindow.DataContext = vm;
                 desktop.MainWindow = mainWindow;
@@ -53,7 +66,7 @@ namespace NextTranslator
     {
         public static void AddCommonServices(this IServiceCollection collection, Window mainWindow, IConfigurationRoot configurationRoot)
         {
-            collection.AddFileService(mainWindow);
+            collection.AddServices(mainWindow);
             collection.AddSingleton<AppConfigurations>(configurationRoot.GetSection("AppConfigurations").Get<AppConfigurations>() ??
                                                        new AppConfigurations());
             collection.AddTransient<DictionariesContentViewModel>();

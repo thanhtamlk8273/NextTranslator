@@ -5,14 +5,18 @@
              xmlns:ui="using:FluentAvalonia.UI.Controls"
 			 xmlns:uip="using:FluentAvalonia.UI.Controls.Primitives"
 			 xmlns:vm="using:NextTranslator.ViewModels"
+			 xmlns:v="using:NextTranslator.Views"
 			 xmlns:cv="clr-namespace:NextTranslator.Converters"
 			 xmlns:controls="clr-namespace:NextTranslator.Controls"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="NextTranslator.Views.DictionariesContentView"
 			 x:DataType="vm:DictionariesContentViewModel">
 
 	<UserControl.Resources>
 		<cv:MyConverter x:Key="myConverter"/>
+		<cv:StringsToKeyValuePairConverter x:Key="StringsToKeyValuePairConverter"/>
 	</UserControl.Resources>
 	
 	<StackPanel>
@@ -40,13 +44,30 @@
 						<DataGrid.Columns>
 							<DataGridTemplateColumn SortMemberPath="Key" Header="Chinese" Width="*">
 								<DataTemplate>
-									<TextBlock Margin="10,0,0,0" Text="{ReflectionBinding Key, Mode=OneWay}" TextWrapping="Wrap"/>
+									<TextBlock x:Name="KeyColumnTextBlock"
+											   Margin="10,0,0,0"
+											   Text="{ReflectionBinding Key, Mode=OneWay}"
+											   TextWrapping="Wrap"/>
 								</DataTemplate>
 							</DataGridTemplateColumn>
 							
 							<DataGridTemplateColumn SortMemberPath="Value" Header="Vietnamese" Width="*">
 								<DataTemplate>
-									<controls:EditableTextBlock Text="{ReflectionBinding Value, Mode=OneWay}"/>
+									<controls:EditableTextBlock x:Name="ValueColumnTextBlock"
+																Text="{ReflectionBinding Value, Mode=OneWay}">
+										<i:Interaction.Behaviors>
+											<ia:EventTriggerBehavior EventName="ValueChanged">
+												<ia:InvokeCommandAction Command="{Binding $parent[v:DictionariesContentView].((vm:DictionariesContentViewModel)DataContext).AddRecordCommand}">
+													<ia:InvokeCommandAction.CommandParameter>
+														<MultiBinding Converter="{StaticResource StringsToKeyValuePairConverter}">
+															<ReflectionBinding Path="Text" ElementName="KeyColumnTextBlock"/>
+															<ReflectionBinding Path="Text" ElementName="ValueColumnTextBlock"/>
+														</MultiBinding>
+													</ia:InvokeCommandAction.CommandParameter>
+												</ia:InvokeCommandAction>
+											</ia:EventTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</controls:EditableTextBlock>
 								</DataTemplate>
 							</DataGridTemplateColumn>
 							
